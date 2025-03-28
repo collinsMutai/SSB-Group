@@ -1,0 +1,133 @@
+/* Base Styles for Services */
+.services {
+  padding: 100px;
+  padding-bottom: 0px !important;
+}
+
+/* Heading Styles */
+.service-heading {
+  font-size: 3rem;
+  margin-bottom: 80px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1 !important;
+  color: #333;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards; /* Animation */
+}
+
+.service-subheading {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #4c888e;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease-out forwards; /* Animation */
+  animation-delay: 0.2s; /* Slight delay */
+}
+
+/* Row Styles */
+.service-row {
+  display: flex;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+/* Image and Text Styles */
+.service-image,
+.service-text {
+  flex: 1;
+  opacity: 0;
+  animation: fadeInUp 1.5s ease-out forwards; /* Animation */
+}
+
+.service-image img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  animation: fadeInSlideUp 1s ease-out forwards; /* Updated animation */
+  animation-delay: 0.5s; /* Delays animation */
+}
+
+/* Text Animation */
+.service-text-title {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  text-align: left;
+  color: #4c888e;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 1.5s ease-out forwards; /* Animation */
+  animation-delay: 1s; /* Slight delay */
+}
+
+.service-text-paragraph {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 1.5s ease-out forwards; /* Animation */
+  animation-delay: 1.2s; /* Slight delay */
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* New Animation: Fade-in and Slide-up for the Image */
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Start with a slight downward position */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* End in its natural position */
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .services {
+    padding: 20px;
+  }
+
+  .service-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .service-heading {
+    font-size: calc(1.425rem + 2.1vw);
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .service-subheading {
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .service-text-title {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .service-text-paragraph {
+    font-size: 15px;
+    font-weight: normal;
+  }
+}

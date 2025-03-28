@@ -1,0 +1,14 @@
+<!-- Heading Section -->
+<div class="service-heading-container">
+  <h3 class="service-subheading">Our</h3>
+  <h1 class="service-heading">Sectors</h1>
+</div>
+
+<!-- Sectors List -->
+<div class="sectors-container">
+  <div *ngFor="let sector of sectors" class="sector">
+    <i [class]="sector.icon" class="icon"></i>
+    <h3>{{ sector.title }}</h3>
+    <p [innerHTML]="sector.description | lineBreak"></p> <!-- Use the lineBreak pipe here -->
+  </div>
+</div>
