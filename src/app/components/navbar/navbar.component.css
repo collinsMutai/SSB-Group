@@ -1,0 +1,126 @@
+/* Navbar */
+.navbar {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  z-index: 1000; /* Keep the navbar on top of other content */
+}
+
+/* Logo */
+.logo span {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+/* Menu (Slide In) */
+.menu {
+  position: fixed;
+  top: 0;
+  right: -90%; /* Initially hide the menu off-screen to the right */
+  width: 90%; /* Set the menu to take up 90% of the screen width */
+  height: 100vh; /* Ensure the menu covers the entire height of the screen */
+  background-color: white; /* Set the background color to white */
+  transition: right 0.3s ease; /* Smooth sliding effect */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Optional: Add a slight shadow for a better effect */
+  z-index: 20; /* Ensure the menu is above the navbar */
+}
+
+.menu.open {
+  right: 0; /* Slide the menu in from the right */
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Stack the menu items vertically */
+  height: 100%; /* Ensure the items fill the height */
+  justify-content: center; /* Vertically center the items */
+  text-align: center;
+}
+
+.menu ul li {
+  margin: 20px 0; /* Space between items */
+}
+
+.menu ul li a {
+  color: #333; /* Dark text for better contrast on the white background */
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.menu ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Hamburger styles */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 21px;
+  width: 30px;
+  cursor: pointer;
+  z-index: 21; /* Ensure hamburger is above the menu */
+}
+
+.hamburger .bar {
+  height: 3px;
+  background-color: white; /* Default color */
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* Change color to dark when the menu is open */
+.hamburger .bar.dark {
+  background-color: #333; /* Change to dark color */
+}
+
+.hamburger .bar.open:nth-child(1) {
+  transform: rotate(45deg);
+  position: relative;
+  top: 7px;
+}
+
+.hamburger .bar.open:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger .bar.open:nth-child(3) {
+  transform: rotate(-45deg);
+  position: relative;
+  top: -7px;
+}
+
+/* Media Query for small screens */
+@media (max-width: 768px) {
+  .menu ul {
+    display: flex;
+    flex-direction: column; /* Stack the menu items */
+  }
+
+  .hamburger {
+    display: flex; /* Show hamburger on small screens */
+  }
+
+  .navbar {
+    position: relative;
+    top: 0px !important;
+    max-width: 100%;
+  }
+
+  /* Modify the z-index of the hamburger to make sure it's above everything else */
+  .hamburger {
+    z-index: 1100; /* Ensure it's above the menu and carousel */
+  }
+}

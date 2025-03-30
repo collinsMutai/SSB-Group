@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="logo">
+    <span>SSB Group</span>
+  </div>
+  <div class="menu" [class.open]="isMenuOpen">
+    <ul>
+      <li><a routerLink="/#home">Home</a></li>
+      <li><a routerLink="/#about">About</a></li>
+      <li><a routerLink="/#services">Services</a></li>
+      <li><a routerLink="/#contact">Contact</a></li>
+    </ul>
+  </div>
+  <!-- Hamburger Toggle -->
+  <div class="hamburger" (click)="toggleMenu()">
+    <span class="bar" [class.open]="isMenuOpen" [class.dark]="isMenuOpen"></span> <!-- Top bar -->
+    <span class="bar" [class.open]="isMenuOpen" [class.dark]="isMenuOpen"></span> <!-- Middle bar -->
+    <span class="bar" [class.open]="isMenuOpen" [class.dark]="isMenuOpen"></span> <!-- Bottom bar -->
+  </div>
+</nav>
