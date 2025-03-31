@@ -1,4 +1,4 @@
-/* Navbar */
+/* Navbar Styling */
 .navbar {
   position: absolute;
   top: 10px;
@@ -11,31 +11,19 @@
   justify-content: space-between;
   align-items: center;
   background-color: #333;
-  z-index: 1000; /* Keep the navbar on top of other content */
+  z-index: 1000; /* Keep navbar on top */
 }
 
-/* Logo */
 .logo span {
   font-size: 24px;
   color: white;
   font-weight: bold;
 }
 
-/* Menu (Slide In) */
+/* Menu Styling */
 .menu {
-  position: fixed;
-  top: 0;
-  right: -90%; /* Initially hide the menu off-screen to the right */
-  width: 90%; /* Set the menu to take up 90% of the screen width */
-  height: 100vh; /* Ensure the menu covers the entire height of the screen */
-  background-color: white; /* Set the background color to white */
-  transition: right 0.3s ease; /* Smooth sliding effect */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Optional: Add a slight shadow for a better effect */
-  z-index: 20; /* Ensure the menu is above the navbar */
-}
-
-.menu.open {
-  right: 0; /* Slide the menu in from the right */
+  display: flex; /* Horizontally display the menu items */
+  justify-content: flex-end;
 }
 
 .menu ul {
@@ -43,18 +31,15 @@
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column; /* Stack the menu items vertically */
-  height: 100%; /* Ensure the items fill the height */
-  justify-content: center; /* Vertically center the items */
-  text-align: center;
+  flex-direction: row; /* Display items in a row */
 }
 
 .menu ul li {
-  margin: 20px 0; /* Space between items */
+  margin: 0 20px; /* Space between items */
 }
 
 .menu ul li a {
-  color: #333; /* Dark text for better contrast on the white background */
+  color: white;
   text-decoration: none;
   font-size: 18px;
 }
@@ -63,64 +48,99 @@
   text-decoration: underline;
 }
 
-/* Hamburger styles */
 .hamburger {
+  display: none;
+}
+
+/* Increase the size of the hamburger SVG */
+.hamburger svg {
+  color: #fff;
+  width: 40px; /* Adjust width */
+  height: 40px; /* Adjust height */
+}
+
+/* Mobile Menu Styling */
+.mobile-menu {
+  display: none; /* Initially hidden */
+  background-color: #333;
+  position: fixed; /* Fixed position to overlay content */
+  top: 0;
+  right: -100%; /* Start off-screen on the right */
+  width: 80%; /* Adjust to fit your needs */
+  height: 100%;
+  padding: 20px;
+  z-index: 999; /* Ensure it's above the content */
+  transition: right 0.5s ease-in-out; /* Smooth transition from the right */
+}
+
+/* Keyframe for sliding in */
+@keyframes slideIn {
+  0% {
+    right: -100%; /* Off-screen right */
+  }
+  100% {
+    right: 0; /* In position */
+  }
+}
+
+/* Keyframe for sliding out */
+@keyframes slideOut {
+  0% {
+    right: 0; /* In position */
+  }
+  100% {
+    right: -100%; /* Off-screen right */
+  }
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 21px;
-  width: 30px;
-  cursor: pointer;
-  z-index: 21; /* Ensure hamburger is above the menu */
+  flex-direction: column; /* Stack the menu items vertically */
 }
 
-.hamburger .bar {
-  height: 3px;
-  background-color: white; /* Default color */
-  border-radius: 5px;
-  transition: 0.3s;
+.mobile-menu ul li {
+  margin: 15px 0; /* Space between menu items */
 }
 
-/* Change color to dark when the menu is open */
-.hamburger .bar.dark {
-  background-color: #333; /* Change to dark color */
+.mobile-menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
 }
 
-.hamburger .bar.open:nth-child(1) {
-  transform: rotate(45deg);
-  position: relative;
-  top: 7px;
+.mobile-menu ul li a:hover {
+  text-decoration: underline;
 }
 
-.hamburger .bar.open:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger .bar.open:nth-child(3) {
-  transform: rotate(-45deg);
-  position: relative;
-  top: -7px;
-}
-
-/* Media Query for small screens */
+/* Media Query for Mobile Screens */
 @media (max-width: 768px) {
-  .menu ul {
-    display: flex;
-    flex-direction: column; /* Stack the menu items */
-  }
-
-  .hamburger {
-    display: flex; /* Show hamburger on small screens */
-  }
-
   .navbar {
-    position: relative;
-    top: 0px !important;
-    max-width: 100%;
+    max-width: 100%; /* Ensure navbar takes full width on mobile */
+    top: 0;
   }
 
-  /* Modify the z-index of the hamburger to make sure it's above everything else */
+  .menu ul {
+    display: none;
+  }
+
   .hamburger {
-    z-index: 1100; /* Ensure it's above the menu and carousel */
+    display: block;
+  }
+
+  /* Show mobile menu when the menu is open */
+  .mobile-menu.open {
+    display: block;
+    padding-top: 80px;
+    animation: slideIn 0.5s ease-out forwards; /* Smooth slide-in animation */
+  }
+
+  /* When the menu is not open, use the slide-out animation */
+  .mobile-menu:not(.open) {
+    display: block; /* Ensure the menu stays visible for animation */
+     padding-top: 80px;
+    animation: slideOut 0.5s ease-in forwards; /* Smooth slide-out animation */
   }
 }

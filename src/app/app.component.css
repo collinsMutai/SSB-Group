@@ -1,0 +1,57 @@
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: transparent; /* Make the background transparent */
+  border: 2px solid #4c888e; /* Default border color */
+  border-radius: 50%; /* Make the button rounded */
+  padding: 10px;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+  transition: background-color 0.3s, border-color 0.3s, border-width 0.3s, width 0.3s, height 0.3s; /* Smooth transition */
+}
+
+.scroll-to-top-btn.show {
+  display: block; /* Show button when the 'show' class is added */
+}
+
+.scroll-to-top-btn:hover {
+  background-color: #4c888e; /* Change the background on hover */
+  border-color: #4c888e; /* Darker border color on hover */
+}
+
+.scroll-to-top-btn svg {
+  width: 24px; /* Set the width of the icon */
+  height: 24px; /* Set the height of the icon */
+  color: #4c888e; /* Set the color of the icon */
+}
+
+.scroll-to-top-btn:hover svg {
+  color: white; /* Change icon color on hover */
+}
+
+.scroll-to-top-btn:focus {
+  outline: none; /* Remove focus outline */
+}
+
+/* Dynamically changing the border size */
+.scroll-to-top-btn {
+  width: 50px;
+  height: 50px;
+  transition: border-width 0.3s, width 0.3s, height 0.3s; /* Smooth border transition */
+}
+
+/* Ensure it’s rounded no matter the size */
+.scroll-to-top-btn {
+  border-radius: 50%;
+}
+
+
+@media (max-width: 768px) {
+
+
+  .scroll-to-top-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
