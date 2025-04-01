@@ -8,18 +8,28 @@ import {
 } from '@angular/forms'; // Reactive form imports
 import * as emailjs from 'emailjs-com'; // EmailJS SDK import
 import { environment } from '../../../environments/environment'; // Environment configuration for EmailJS
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
   standalone: true, // Standalone component
-  imports: [CommonModule, ReactiveFormsModule], // Import necessary modules
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RecaptchaModule,
+    HttpClientModule,
+  ], // Import necessary modules
 })
 export class ContactComponent implements OnInit {
   contactForm: FormGroup; // Declare the reactive form group
+  siteKey: string = environment.recaptchaSiteKey;
+  recaptchaToken: string | null = null;
+  recaptchaFailed = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     // Initialize the reactive form with form controls and validation
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]], // Name field with validation
@@ -30,42 +40,33 @@ export class ContactComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Function to handle form submission
   onSubmit(): void {
     if (this.contactForm.valid) {
-      const formData = this.contactForm.value; // Get the form data
+      const formData = this.contactForm.value;
 
-      // Call function to send the email using EmailJS
+      // Send the form data to the backend server
       this.sendEmail(formData);
-    } else {
-      alert('Please fill out all fields correctly.'); // Alert if the form is invalid
     }
   }
 
-  // Function to send the email using EmailJS
+  // Function to send email by making a POST request to the backend API
   sendEmail(formData: any): void {
-    const serviceId = environment.emailjs.serviceId; // Get the service ID from environment
-    const templateId = environment.emailjs.templateId; // Get the template ID from environment
-    const userId = environment.emailjs.userId; // Get the user ID from environment
+    this.http
+      .post('https://www.ssbgroupllc.com/send-email', formData) // Update to the production URL
+      .subscribe(
+        (response) => {
+          console.log('Email sent successfully:', response);
+          alert('Thank you for contacting us!');
+        },
+        (error) => {
+          console.error('Error sending email:', error);
+          alert('Something went wrong. Please try again.');
+        }
+      );
+  }
 
-    // Set the parameters to send to EmailJS template
-    const templateParams = {
-      from_name: formData.name,
-      from_email: formData.email,
-      message: formData.message,
-    };
-
-    // Send the email using the EmailJS SDK
-    emailjs.send(serviceId, templateId, templateParams, userId).then(
-      (response) => {
-        console.log('Email sent successfully:', response);
-        alert('Thank you for contacting us!'); // Show success message
-        this.contactForm.reset(); // Reset form after successful submission
-      },
-      (error) => {
-        console.error('Email sending error:', error);
-        alert('Something went wrong. Please try again.'); // Show error message
-      }
-    );
+  resolved(captchaResponse: any) {
+    this.recaptchaToken = captchaResponse;
+    this.recaptchaFailed = false;
   }
 }

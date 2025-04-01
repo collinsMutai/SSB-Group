@@ -55,6 +55,11 @@
           <label for="message">Message</label>
           <textarea id="message" formControlName="message" required></textarea>
         </div>
+         <re-captcha
+            formControlName="recaptcha"
+            [siteKey]="siteKey"
+            (resolved)="resolved($event)"
+          ></re-captcha>
         <button type="submit" class="submit-btn">Submit</button>
       </form>
     </div>
