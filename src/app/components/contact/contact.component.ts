@@ -6,10 +6,9 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms'; // Reactive form imports
-import * as emailjs from 'emailjs-com'; // EmailJS SDK import
-import { environment } from '../../../environments/environment'; // Environment configuration for EmailJS
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -25,7 +24,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 })
 export class ContactComponent implements OnInit {
   contactForm: FormGroup; // Declare the reactive form group
-  siteKey: string = environment.recaptchaSiteKey;
+  siteKey: string = environment.recaptchaSiteKey; // Use your actual reCAPTCHA site key
   recaptchaToken: string | null = null;
   recaptchaFailed = false;
 
@@ -52,7 +51,7 @@ export class ContactComponent implements OnInit {
   // Function to send email by making a POST request to the backend API
   sendEmail(formData: any): void {
     this.http
-      .post('https://www.ssbgroupllc.com/send-email', formData) // Update to the production URL
+      .post('https://www.ssbgroupllc.com/send-email', formData) // Ensure this is the correct production URL
       .subscribe(
         (response) => {
           console.log('Email sent successfully:', response);

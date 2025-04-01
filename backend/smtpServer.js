@@ -11,11 +11,10 @@ const app = express();
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
-      "https://www.ssbgroupllc.com",
-      "http://localhost:4200",
-    ]; // replace with your actual frontend URLs
+      "https://www.ssbgroupllc.com", // Production frontend origin
+      "http://localhost:4200", // Local development frontend
+    ];
     if (allowedOrigins.includes(origin) || !origin) {
-      // Allow requests from allowed origins or no origin (for non-browser requests)
       callback(null, true); // Allow the request
     } else {
       callback(new Error("Not allowed by CORS")); // Reject the request
@@ -26,7 +25,8 @@ const corsOptions = {
   credentials: true, // Support credentials (cookies, authorization headers)
 };
 
-app.use(cors(corsOptions)); // Apply CORS middleware with options
+// Apply CORS middleware with options
+app.use(cors(corsOptions));
 app.use(bodyParser.json()); // For parsing JSON requests
 
 // SMTP Configuration using environment variables
@@ -94,6 +94,9 @@ function generateEmailTemplate(name, email, message) {
     </html>
   `;
 }
+
+// Handle preflight requests (if needed)
+app.options("/send-email", cors(corsOptions)); // Handle preflight request for the /send-email route
 
 // Start server
 app.listen(3000, () => {
