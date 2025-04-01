@@ -11,7 +11,7 @@ const app = express();
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
-      "https://www.ssbgroupllc.com", // Production frontend origin
+      "https://ssbgroupllc.com", // Production frontend origin
       "http://localhost:4200", // Local development frontend
     ];
     if (allowedOrigins.includes(origin) || !origin) {

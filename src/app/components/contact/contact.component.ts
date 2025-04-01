@@ -10,7 +10,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { environment } from '../../../environments/environment';
 
-
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -21,7 +20,6 @@ import { environment } from '../../../environments/environment';
     ReactiveFormsModule,
     RecaptchaModule,
     HttpClientModule,
-  
   ], // Import necessary modules
 })
 export class ContactComponent implements OnInit {
@@ -36,27 +34,40 @@ export class ContactComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]], // Name field with validation
       email: ['', [Validators.required, Validators.email]], // Email field with validation
       message: ['', [Validators.required, Validators.minLength(10)]], // Message field with validation
-      phone: [''],
     });
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    if (!this.contactForm.value.phone) {
-      const formData = this.contactForm.value;
-      this.sendEmail(formData);
+    // Check if reCAPTCHA token is missing or form is invalid
+    if (this.contactForm.invalid || !this.recaptchaToken) {
+      this.recaptchaFailed = !this.recaptchaToken; // Show reCAPTCHA failure message if token is missing
+      alert('Please fill all the required fields and verify the reCAPTCHA.');
+      return;
     }
+
+    const formData = this.contactForm.value;
+
+    // Send email if the form is valid
+    this.sendEmail(formData);
   }
 
   // Function to send email by making a POST request to the backend API
   sendEmail(formData: any): void {
+    // Add reCAPTCHA token to the form data
+    const payload = {
+      ...formData,
+      recaptchaToken: this.recaptchaToken,
+    };
+
     this.http
-      .post('https://www.ssbgroupllc.com/send-email', formData) // Ensure this is the correct production URL
+      .post('https://ssbgroupllc.com/send-email', payload) // Ensure this is the correct production URL
       .subscribe(
         (response) => {
           console.log('Email sent successfully:', response);
           alert('Thank you for contacting us!');
+          this.contactForm.reset(); // Reset the form after success
         },
         (error) => {
           console.error('Error sending email:', error);
@@ -65,8 +76,9 @@ export class ContactComponent implements OnInit {
       );
   }
 
-  resolved(captchaResponse: any) {
-    this.recaptchaToken = captchaResponse;
-    this.recaptchaFailed = false;
+  // This function will be called when the reCAPTCHA is successfully resolved
+  resolved(captchaResponse: any): void {
+    this.recaptchaToken = captchaResponse; // Store the reCAPTCHA token
+    this.recaptchaFailed = false; // Reset the failure flag
   }
 }
