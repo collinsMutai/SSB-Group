@@ -52,7 +52,7 @@ export class ContactComponent implements OnInit {
   // Function to send email by making a POST request to the backend API
   sendEmail(formData: any): void {
     this.http
-      .post('http://localhost:3000/send-email', formData) // Ensure this is the correct production URL
+      .post('https://www.ssbgroupllc.com/send-email', formData) // Ensure this is the correct production URL
       .subscribe(
         (response) => {
           console.log('Email sent successfully:', response);
