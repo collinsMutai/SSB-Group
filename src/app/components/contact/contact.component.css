@@ -81,7 +81,12 @@
 
 .form-group textarea {
   height: 150px;
-  resize: vertical;
+  resize: vertic
+  al;
+}
+
+.form-group.phone {
+ display: none !important;
 }
 
 .submit-btn {

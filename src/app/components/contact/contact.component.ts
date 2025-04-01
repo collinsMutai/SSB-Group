@@ -10,6 +10,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { environment } from '../../../environments/environment';
 
+
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -20,6 +21,7 @@ import { environment } from '../../../environments/environment';
     ReactiveFormsModule,
     RecaptchaModule,
     HttpClientModule,
+  
   ], // Import necessary modules
 })
 export class ContactComponent implements OnInit {
@@ -34,16 +36,15 @@ export class ContactComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]], // Name field with validation
       email: ['', [Validators.required, Validators.email]], // Email field with validation
       message: ['', [Validators.required, Validators.minLength(10)]], // Message field with validation
+      phone: [''],
     });
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    if (this.contactForm.valid) {
+    if (!this.contactForm.value.phone) {
       const formData = this.contactForm.value;
-
-      // Send the form data to the backend server
       this.sendEmail(formData);
     }
   }
@@ -51,7 +52,7 @@ export class ContactComponent implements OnInit {
   // Function to send email by making a POST request to the backend API
   sendEmail(formData: any): void {
     this.http
-      .post('https://www.ssbgroupllc.com/send-email', formData) // Ensure this is the correct production URL
+      .post('http://localhost:3000/send-email', formData) // Ensure this is the correct production URL
       .subscribe(
         (response) => {
           console.log('Email sent successfully:', response);
