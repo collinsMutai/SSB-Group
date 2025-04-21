@@ -1,6 +1,7 @@
 /* Base Styles for about */
 .about {
   padding: 40px 100px;
+  margin-top: 100px;
   padding-bottom: 0px !important;
 }
 
@@ -34,8 +35,6 @@
   /* margin-bottom: 40px; */
 }
 
-
-
 .about-text-paragraph {
   font-size: 16px;
   font-weight: 500;
@@ -45,6 +44,19 @@
   opacity: 0;
   animation: fadeInUp 1.5s ease-out forwards; /* Animation */
   animation-delay: 1.2s; /* Slight delay */
+}
+
+.service-text-title {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  text-align: center;
+  color: #4c888e;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 1.5s ease-out forwards; /* Animation */
+  animation-delay: 1s; /* Slight delay */
 }
 
 /* Keyframe Animations */
@@ -96,5 +108,11 @@
     font-size: 15px;
     font-weight: normal;
     margin-bottom: 0px;
+  }
+
+  .service-text-title {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
   }
 }
