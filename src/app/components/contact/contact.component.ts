@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
-} from '@angular/forms'; // Reactive form imports
+} from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { environment } from '../../../environments/environment';
@@ -14,60 +14,74 @@ import { environment } from '../../../environments/environment';
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
-  standalone: true, // Standalone component
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RecaptchaModule,
     HttpClientModule,
-  ], // Import necessary modules
+  ],
 })
 export class ContactComponent implements OnInit {
-  contactForm: FormGroup; // Declare the reactive form group
-  siteKey: string = environment.recaptchaSiteKey; // Use your actual reCAPTCHA site key
+  contactForm: FormGroup;
+  siteKey: string = environment.recaptchaSiteKey;
   recaptchaToken: string | null = null;
   recaptchaFailed = false;
 
+  // EmailJS credentials
+  userID: string = environment.emailjs.userId;
+  serviceID: string = environment.emailjs.serviceId;
+  templateID: string = environment.emailjs.templateId;
+
   constructor(private fb: FormBuilder, private http: HttpClient) {
-    // Initialize the reactive form with form controls and validation
     this.contactForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]], // Name field with validation
-      email: ['', [Validators.required, Validators.email]], // Email field with validation
-      message: ['', [Validators.required, Validators.minLength(10)]], // Message field with validation
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      message: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    // Check if reCAPTCHA token is missing or form is invalid
     if (this.contactForm.invalid || !this.recaptchaToken) {
-      this.recaptchaFailed = !this.recaptchaToken; // Show reCAPTCHA failure message if token is missing
+      this.recaptchaFailed = !this.recaptchaToken;
       alert('Please fill all the required fields and verify the reCAPTCHA.');
       return;
     }
 
     const formData = this.contactForm.value;
-
-    // Send email if the form is valid
     this.sendEmail(formData);
   }
 
-  // Function to send email by making a POST request to the backend API
   sendEmail(formData: any): void {
-    // Add reCAPTCHA token to the form data
-    const payload = {
-      ...formData,
-      recaptchaToken: this.recaptchaToken,
+    const emailData = {
+      service_id: this.serviceID,
+      template_id: this.templateID,
+      user_id: this.userID,
+      template_params: {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        // Optional: Include reCAPTCHA token if needed by your backend or EmailJS function
+        'g-recaptcha-response': this.recaptchaToken,
+      },
     };
 
     this.http
-      .post('https://ssbgroupllc.com/send-email', payload) // Ensure this is the correct production URL
+      .post('https://api.emailjs.com/api/v1.0/email/send', emailData, {
+        responseType: 'text',
+      })
       .subscribe(
         (response) => {
-          console.log('Email sent successfully:', response);
-          alert('Thank you for contacting us!');
-          this.contactForm.reset(); // Reset the form after success
+          if (response.includes('OK')) {
+            alert('Thank you! Your message has been sent.');
+            this.contactForm.reset();
+            this.recaptchaToken = null;
+          } else {
+            console.error('EmailJS response error:', response);
+            alert('Failed to send message. Please try again later.');
+          }
         },
         (error) => {
           console.error('Error sending email:', error);
@@ -76,9 +90,8 @@ export class ContactComponent implements OnInit {
       );
   }
 
-  // This function will be called when the reCAPTCHA is successfully resolved
   resolved(captchaResponse: any): void {
-    this.recaptchaToken = captchaResponse; // Store the reCAPTCHA token
-    this.recaptchaFailed = false; // Reset the failure flag
+    this.recaptchaToken = captchaResponse;
+    this.recaptchaFailed = false;
   }
 }
