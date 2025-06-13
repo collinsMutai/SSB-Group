@@ -16,7 +16,7 @@ export class SectorsComponent {
       title: 'Oilfield Equipment & Spare Parts',
       description:
         'At SSB, we leverage our in-depth understanding of sourcing to enhance the analysis, negotiation, and evaluation processes for both clients and suppliers.\n\n' +
-        'Our expertise spans across crafting customized spare parts management solutions for critical systems such as chemical injection skids, wellhead control panels, modular skids, emergency shutdown systems, and hydraulic power units. ' +
+        'Our expertise spans across crafting customized spare parts management solutions for critical systems such as combustion & vent streams, chemical injection skids, wellhead control panels, modular skids, emergency shutdown systems, and hydraulic power units. ' +
         'Whatever your specific requirements, our commitment is to deliver fast, reliable, and tailor-made solutions designed to meet your unique operational needs.',
     },
     {
