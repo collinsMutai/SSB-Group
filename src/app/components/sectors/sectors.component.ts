@@ -13,7 +13,7 @@ export class SectorsComponent {
   sectors = [
     {
       icon: 'fa fa-cogs', // You can use any icon class
-      title: 'Oilfield Equipment & Spare Parts',
+      title: 'Oil & Gas Equipment and Parts',
       description:
         'At SSB, we leverage our in-depth understanding of sourcing to enhance the analysis, negotiation, and evaluation processes for both clients and suppliers.\n\n' +
         'Our expertise spans across crafting customized spare parts management solutions for critical systems such as combustion & vent streams, chemical injection skids, wellhead control panels, modular skids, emergency shutdown systems, and hydraulic power units. ' +
