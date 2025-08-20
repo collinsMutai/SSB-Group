@@ -10,16 +10,8 @@
       </p>
 
       <div class="contact-items">
-        <!-- <div class="contact-item">
-          <i class="fas fa-phone-alt icon"></i> 
-          <div class="contact-item-details">
-            <p class="contact-item-title">Phone</p>
-            <p class="contact-item-text">+254706159900</p>
-          </div>
-        </div> -->
-
         <div class="contact-item">
-          <i class="fas fa-envelope icon"></i> <!-- Font Awesome Email Icon -->
+          <i class="fas fa-envelope icon"></i>
           <div class="contact-item-details">
             <p class="contact-item-title">Email</p>
             <p class="contact-item-text">info&#64;ssbgroupllc.com</p>
@@ -27,15 +19,10 @@
         </div>
 
         <div class="contact-item">
-          <i class="fas fa-map-marker-alt icon"></i> <!-- Font Awesome Location Icon -->
+          <i class="fas fa-map-marker-alt icon"></i>
           <div class="contact-item-details">
             <p class="contact-item-title">Address</p>
-            <p class="contact-item-text">
-              Tulsa,Oklahoma.
-              <!-- P. O. Box 38703-00100 <br />
-              C403 Astrol Building, Opposite Garden City - Thika road, <br />
-              Nairobi, Kenya -->
-            </p>
+            <p class="contact-item-text">Tulsa, Oklahoma.</p>
           </div>
         </div>
       </div>
@@ -48,25 +35,55 @@
           <label for="name">Name</label>
           <input type="text" id="name" formControlName="name" required />
         </div>
+
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" formControlName="email" required />
         </div>
+
         <div class="form-group phone">
           <label for="phone">Phone</label>
           <input type="number" id="phone" formControlName="phone" required />
         </div>
+
         <div class="form-group">
           <label for="message">Message</label>
           <textarea id="message" formControlName="message" required></textarea>
         </div>
-        <re-captcha
-            formControlName="recaptcha"
-            [siteKey]="siteKey"
-            (resolved)="resolved($event)"
-          ></re-captcha>
+
+        <!-- Note: No re-captcha UI for v3, it's handled silently in component -->
+
         <button type="submit" class="submit-btn">Submit</button>
       </form>
+      <div *ngIf="isLoading" class="spinner-container">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+<!-- Toast Message -->
+<div
+  class="toast-container position-fixed top-0 end-0 p-3"
+  style="z-index: 9999"
+>
+  <div
+    #toastEl
+    class="toast align-items-center border-0"
+    [class]="toastClass"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body">{{ toastMessage }}</div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+</div>

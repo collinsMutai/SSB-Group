@@ -113,6 +113,23 @@
   color: #4c888e;
 }
 
+.spinner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.right-column {
+  position: relative;
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+}
+
+
 @media (max-width: 768px) {
   .contact {
     padding: 20px;

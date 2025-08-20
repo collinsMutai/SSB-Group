@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,8 +13,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RecaptchaModule } from 'ng-recaptcha';
+import { ReCaptchaV3Service, RecaptchaV3Module } from 'ng-recaptcha';
 import { environment } from '../../../environments/environment';
+
+declare const bootstrap: any;
 
 @Component({
   selector: 'app-contact',
@@ -18,22 +26,30 @@ import { environment } from '../../../environments/environment';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RecaptchaModule,
     HttpClientModule,
+    RecaptchaV3Module,
   ],
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, AfterViewInit {
   contactForm: FormGroup;
   siteKey: string = environment.recaptchaSiteKey;
   recaptchaToken: string | null = null;
-  recaptchaFailed = false;
+  isLoading: boolean = false; // ✅ Track loading state
 
-  // EmailJS credentials
   userID: string = environment.emailjs.userId;
   serviceID: string = environment.emailjs.serviceId;
   templateID: string = environment.emailjs.templateId;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  toastMessage: string = '';
+  toastClass: string = 'bg-success text-white';
+
+  @ViewChild('toastEl', { static: false }) toastEl!: ElementRef;
+
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private recaptchaV3Service: ReCaptchaV3Service
+  ) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -43,15 +59,26 @@ export class ContactComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngAfterViewInit(): void {}
+
   onSubmit(): void {
-    if (this.contactForm.invalid || !this.recaptchaToken) {
-      this.recaptchaFailed = !this.recaptchaToken;
-      alert('Please fill all the required fields and verify the reCAPTCHA.');
+    if (this.contactForm.invalid) {
+      this.showToast('Please fill all required fields.', false);
       return;
     }
+    this.isLoading = true;
 
-    const formData = this.contactForm.value;
-    this.sendEmail(formData);
+    this.recaptchaV3Service.execute('contact_form').subscribe({
+      next: (token: string) => {
+        this.recaptchaToken = token;
+        this.sendEmail(this.contactForm.value);
+      },
+      error: (err) => {
+        console.error('reCAPTCHA error', err);
+        this.showToast('reCAPTCHA verification failed.', false);
+        this.isLoading = false;
+      },
+    });
   }
 
   sendEmail(formData: any): void {
@@ -60,10 +87,9 @@ export class ContactComponent implements OnInit {
       template_id: this.templateID,
       user_id: this.userID,
       template_params: {
-        from_name: formData.name,
-        from_email: formData.email,
+        name: formData.name,
+        email: formData.email,
         message: formData.message,
-        // Optional: Include reCAPTCHA token if needed by your backend or EmailJS function
         'g-recaptcha-response': this.recaptchaToken,
       },
     };
@@ -74,24 +100,37 @@ export class ContactComponent implements OnInit {
       })
       .subscribe(
         (response) => {
+          this.isLoading = false;
+
           if (response.includes('OK')) {
-            alert('Thank you! Your message has been sent.');
+            this.showToast('Thank you! Your message has been sent.', true);
             this.contactForm.reset();
             this.recaptchaToken = null;
           } else {
-            console.error('EmailJS response error:', response);
-            alert('Failed to send message. Please try again later.');
+            this.showToast(
+              'Failed to send message. Please try again later.',
+              false
+            );
           }
         },
         (error) => {
           console.error('Error sending email:', error);
-          alert('Something went wrong. Please try again.');
+          this.showToast('Something went wrong. Please try again.', false);
+          this.isLoading = false;
         }
       );
   }
 
-  resolved(captchaResponse: any): void {
-    this.recaptchaToken = captchaResponse;
-    this.recaptchaFailed = false;
+  showToast(message: string, isSuccess: boolean = true): void {
+    this.toastMessage = message;
+    this.toastClass = isSuccess
+      ? 'bg-success text-white'
+      : 'bg-danger text-white';
+
+    const toastElement = this.toastEl?.nativeElement;
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
   }
 }
