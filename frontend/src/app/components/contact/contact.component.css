@@ -9,14 +9,14 @@
   font-weight: 800;
   letter-spacing: -2px;
   line-height: 1 !important;
-  color: #333;
+  color: #4682B4;
   text-align: left;
 }
 
 .contact-subheading {
   font-size: 1.3rem;
   margin-bottom: 10px;
-  color: #4682B4;
+  color: #D2691E;
   text-align: left;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .submit-btn {
-  background-color: #4682B4;
+  background-color: #D2691E;
   color: white;
   border: none;
   padding: 14px 34px !important;
@@ -111,7 +111,7 @@
 
 .icon {
   font-size: 1.5rem;
-  color: #4682B4;
+  color: #D2691E;
 }
 
 .spinner-container {

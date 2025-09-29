@@ -3,7 +3,7 @@
   bottom: 20px;
   right: 20px;
   background-color: transparent; /* Make the background transparent */
-  border: 2px solid #4682B4; /* Default border color */
+  border: 2px solid #D2691E; /* Default border color */
   border-radius: 50%; /* Make the button rounded */
   padding: 10px;
   cursor: pointer;
@@ -23,7 +23,7 @@
 .scroll-to-top-btn svg {
   width: 24px; /* Set the width of the icon */
   height: 24px; /* Set the height of the icon */
-  color: #4682B4; /* Set the color of the icon */
+  color: #D2691E; /* Set the color of the icon */
 }
 
 .scroll-to-top-btn:hover svg {

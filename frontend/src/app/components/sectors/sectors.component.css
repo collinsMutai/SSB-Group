@@ -21,7 +21,7 @@
   font-weight: 800;
   letter-spacing: -2px;
   line-height: 1 !important;
-  color: #333;
+  color: #4682B4;
   opacity: 0;
   animation: fadeInUp 1s ease-out forwards;
 }
@@ -29,7 +29,7 @@
 .sector-subheading {
   font-size: 1.3rem;
   margin-bottom: 10px;
-  color: #4682B4;
+  color: #D2691E;
   opacity: 0;
   animation: fadeInUp 1.2s ease-out forwards;
   animation-delay: 0.2s;
@@ -55,7 +55,7 @@
 
 .check {
   display: inline-block;
-  color: #4682B4;
+  color: #D2691E;
   font-weight: bold;
   margin-right: 6px;
 }
@@ -78,14 +78,14 @@
 
 .sector-container .sector .icon {
   font-size: 40px;
-  color: #4682B4;
+  color: #D2691E;
   margin-bottom: 15px;
 }
 
 .sector-container .sector h3 {
   font-size: 1.2rem;
   font-weight: 800;
-  color: #333;
+  color: #4682B4;
   letter-spacing: -1px;
   margin-bottom: 15px;
   opacity: 0;

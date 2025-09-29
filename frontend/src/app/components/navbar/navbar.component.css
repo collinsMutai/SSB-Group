@@ -1,0 +1,146 @@
+/* Navbar Styling */
+.navbar {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4682B4;
+  z-index: 1000; /* Keep navbar on top */
+}
+
+.logo span {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+/* Menu Styling */
+.menu {
+  display: flex; /* Horizontally display the menu items */
+  justify-content: flex-end;
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row; /* Display items in a row */
+}
+
+.menu ul li {
+  margin: 0 20px; /* Space between items */
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.menu ul li a:hover {
+  text-decoration: underline;
+}
+
+.hamburger {
+  display: none;
+}
+
+/* Increase the size of the hamburger SVG */
+.hamburger svg {
+  color: #fff;
+  width: 40px; /* Adjust width */
+  height: 40px; /* Adjust height */
+}
+
+/* Mobile Menu Styling */
+.mobile-menu {
+  display: none; /* Initially hidden */
+  background-color: #4682B4;
+  position: fixed; /* Fixed position to overlay content */
+  top: 0;
+  right: -100%; /* Start off-screen on the right */
+  width: 80%; /* Adjust to fit your needs */
+  height: 100%;
+  padding: 20px;
+  z-index: 999; /* Ensure it's above the content */
+  transition: right 0.5s ease-in-out; /* Smooth transition from the right */
+}
+
+/* Keyframe for sliding in */
+@keyframes slideIn {
+  0% {
+    right: -100%; /* Off-screen right */
+  }
+  100% {
+    right: 0; /* In position */
+  }
+}
+
+/* Keyframe for sliding out */
+@keyframes slideOut {
+  0% {
+    right: 0; /* In position */
+  }
+  100% {
+    right: -100%; /* Off-screen right */
+  }
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Stack the menu items vertically */
+}
+
+.mobile-menu ul li {
+  margin: 15px 0; /* Space between menu items */
+}
+
+.mobile-menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.mobile-menu ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Media Query for Mobile Screens */
+@media (max-width: 768px) {
+  .navbar {
+    max-width: 100%; /* Ensure navbar takes full width on mobile */
+    top: 0;
+  }
+
+  .menu ul {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  /* Show mobile menu when the menu is open */
+  .mobile-menu.open {
+    display: block;
+    padding-top: 80px;
+    animation: slideIn 0.5s ease-out forwards; /* Smooth slide-in animation */
+  }
+
+  /* When the menu is not open, use the slide-out animation */
+  .mobile-menu:not(.open) {
+    display: block; /* Ensure the menu stays visible for animation */
+     padding-top: 80px;
+    animation: slideOut 0.5s ease-in forwards; /* Smooth slide-out animation */
+  }
+}

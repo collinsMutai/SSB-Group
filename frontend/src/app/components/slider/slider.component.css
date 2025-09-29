@@ -1,0 +1,194 @@
+/* Carousel Container */
+.carousel-container {
+  width: 100%;
+  height: 65vh; /* Adjust height of carousel */
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden; /* Prevent overflow outside container */
+}
+
+/* Carousel Header */
+.carousel-header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  padding-top: 40px;
+}
+
+.service-heading {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.5;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.service-subheading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInUp 1.2s ease-out forwards;
+  animation-delay: 0.2s;
+}
+
+/* Carousel Button */
+.carousel-button {
+  background-color: #fff; /* Customize button color */
+  color: #4c888e;
+  font-size: 1rem;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px; /* Add space between text and button */
+  opacity: 0;
+  animation: fadeInUp 1.5s ease-out forwards;
+  animation-delay: 1.4s; /* Delay for smooth appearance */
+}
+
+.carousel-button:hover {
+  background-color: #357a6e; /* Change color on hover */
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Carousel Items */
+.carousel-items {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+/* Each Slide */
+.carousel-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4c888e;
+  color: white;
+  font-size: 30px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item.active {
+  display: flex;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 20px;
+}
+
+/* Previous Button (Left Arrow) */
+.prev-btn,
+.next-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev-btn svg,
+.next-btn svg {
+  width: 30px;
+  height: 30px;
+  stroke: white;
+}
+
+.prev-btn svg:hover,
+.next-btn svg:hover {
+  fill: white;
+}
+
+/* Keyframe Animations for Fade In and Slide Up */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .carousel-container {
+    height: 100vh; /* Set height to 100vh for mobile screens */
+  }
+
+  .service-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 10px; /* Reduce left and right padding */
+  }
+
+  .service-subheading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 10px; /* Reduce left and right padding */
+  }
+
+  .carousel-button {
+    font-size: 0.9rem;
+    padding: 10px 25px;
+  }
+
+  /* Adjust arrow sizes on smaller screens */
+  .prev-btn,
+  .next-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .prev-btn svg,
+  .next-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Hide controls on mobile */
+  .carousel-controls {
+    display: none;
+  }
+}

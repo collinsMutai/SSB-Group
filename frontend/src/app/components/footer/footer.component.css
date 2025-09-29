@@ -11,7 +11,7 @@
   margin-bottom: 20px;
   font-weight: 800;
   letter-spacing: -1px;
-  color: #333;
+  color: #4682B4 ;
   text-align: left;
   opacity: 0;
   animation: fadeInUp 1s ease-out forwards; /* Animation */
@@ -59,7 +59,7 @@
 }
 
 .footer .social-icons a {
-  color: #4682B4;
+  color: #D2691E;
   margin-right: 15px;
   margin-top: 10px;
   font-size: 1.5rem; /* Adjust icon size */
