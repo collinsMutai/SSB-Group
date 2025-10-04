@@ -2,7 +2,7 @@
 .about {
   padding: 100px;
   margin-top: 100px;
-  margin-bottom: 80px;
+  /* margin-bottom: 80px; */
   padding-bottom: 0px !important;
 }
 
@@ -13,7 +13,7 @@
   font-weight: 800;
   letter-spacing: -2px;
   line-height: 1 !important;
-  color: #D2691E;
+  color: #4682B4;
   text-align: center;
   opacity: 0;
   animation: fadeInUp 1s ease-out forwards; /* Animation */
@@ -53,11 +53,34 @@
   letter-spacing: 0px;
   line-height: 1.2;
   text-align: center;
-  color: #4682B4;
+  color: #D2691E;
   margin-bottom: 20px;
   opacity: 0;
   animation: fadeInUp 1.5s ease-out forwards; /* Animation */
   animation-delay: 1s; /* Slight delay */
+}
+
+/* New: Service List Styles */
+.about-service-list {
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeInUp 1.8s ease-out forwards;
+  animation-delay: 1.5s;
+}
+
+.about-service-list li {
+  margin-bottom: 10px;
+  list-style: none;
+}
+
+.check {
+  display: inline-block;
+  color: #D2691E;
+  font-weight: bold;
+  margin-right: 6px;
 }
 
 /* Keyframe Animations */
@@ -94,6 +117,7 @@
     flex-direction: column;
     gap: 20px;
   }
+
   .about-heading {
     font-size: calc(1.425rem + 2.1vw);
     text-align: left;
@@ -115,5 +139,14 @@
     font-size: 20px;
     font-weight: 500;
     text-align: left;
+  }
+
+  .about-service-list {
+    font-size: 15px;
+    padding-left: 18px;
+  }
+
+  .about-service-list li {
+    margin-bottom: 8px;
   }
 }

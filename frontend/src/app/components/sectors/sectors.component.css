@@ -1,6 +1,7 @@
 .sectors {
-  padding: 60px 100px 100px 100px;
+  padding: 100px;
   background-color: #fff;
+  padding-bottom: 0px !important;
 }
 
 .sector-container {
@@ -15,7 +16,7 @@
   margin-bottom: 200px;
 }
 
-.sector-heading {
+/* .sector-heading {
   font-size: 2rem;
   margin-bottom: 40px;
   font-weight: 800;
@@ -24,12 +25,13 @@
   color: #4682B4;
   opacity: 0;
   animation: fadeInUp 1s ease-out forwards;
-}
+} */
+
 
 .sector-subheading {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
-  color: #D2691E;
+  /* font-size: 1.3rem;
+  margin-bottom: 10px; */
+  color: #D2691E !important;
   opacity: 0;
   animation: fadeInUp 1.2s ease-out forwards;
   animation-delay: 0.2s;
@@ -82,7 +84,7 @@
   margin-bottom: 15px;
 }
 
-.sector-container .sector h3 {
+.sector-container .sector h3, .sector-heading-container .sector-subheading {
   font-size: 1.2rem;
   font-weight: 800;
   color: #4682B4;
@@ -115,7 +117,8 @@
 
 @media (max-width: 768px) {
   .sectors {
-    padding: 30px 20px;
+    padding: 20px;
+    padding-bottom: 20px !important;
   }
   .sector-container {
     padding: 0px;
