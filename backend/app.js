@@ -7,13 +7,14 @@ require("dotenv").config(); // Load environment variables from .env file
 // Create the Express app
 const app = express();
 
+// Parse allowed origins from environment variable (comma-separated)
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",").map(origin => origin.trim())
+  : [];
+
 // CORS Configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = [
-      "https://ssbgroupllc.com", // Production frontend origin
-      "http://localhost:4200", // Local development frontend
-    ];
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true); // Allow the request
     } else {
@@ -29,14 +30,22 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json()); // For parsing JSON requests
 
+// Health check route
+app.get("/", (req, res) => {
+  res.status(200).send("Server is running ✅");
+});
+
 // SMTP Configuration using environment variables
 const transporter = nodemailer.createTransport({
-  host: "premium249.web-hosting.com",
-  port: 465,
-  secure: true, // use SSL
+  host: process.env.SMTP_HOST || "mail.vertexglobalsourcing.com",
+  port: parseInt(process.env.SMTP_PORT) || 587,
+  secure: process.env.SMTP_SECURE === "true" || false, // true for 465, false for 587
   auth: {
-    user: process.env.EMAIL_USER, // use environment variable
-    pass: process.env.EMAIL_PASS, // use environment variable
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false, // required on many shared hosts
   },
 });
 
@@ -47,9 +56,9 @@ app.post("/send-email", (req, res) => {
   // Setup email data
   const mailOptions = {
     from: process.env.EMAIL_USER, // use environment variable
-    to: "info@ssbgroupllc.com", // recipient email
+    to: process.env.EMAIL_TO || "info@vertexglobalsourcing.com", // recipient email
     subject: "Contact Form Submission",
-    html: generateEmailTemplate(name, email, message), // Use the HTML template function
+    html: generateEmailTemplate(name, email, message),
   };
 
   // Send email
@@ -72,33 +81,48 @@ function generateEmailTemplate(name, email, message) {
     </head>
     <body style="font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; color: #333;">
       <div class="email-container" style="max-width: 650px; margin: 0 auto; background-color: #ffffff; padding: 40px 40px 40px 60px; border-radius: 10px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);">
+        
         <!-- Header Section -->
-        <div class="email-header" style="background-color: #27548A; padding: 30px; border-radius: 10px 10px 0 0; text-align: center; color: white;">
+        <div class="email-header" style="background-color: #0070C5; padding: 30px; border-radius: 10px 10px 0 0; text-align: center; color: white;">
           <h1 style="font-family: 'Syne', sans-serif; font-size: 28px; margin: 0;">New Message Notification</h1>
         </div>
-
+        
         <!-- Content Section -->
         <div class="email-content" style="padding: 20px 0; font-size: 16px; line-height: 1.6;">
           <p>Hello,</p>
-          <p>You received a new message from <strong style="color: #27548A;">${name}</strong>:</p>
-
+          <p>You received a new message from <strong style="color: #0070C5;">${name}</strong>:</p>
+          
           <!-- Message Box -->
-          <div class="message-box" style="background-color: #f1f1f1; border-left: 4px solid #27548A; padding: 15px 20px; font-style: italic; margin-bottom: 30px;">
+          <div class="message-box" style="background-color: #2F9A5D; border-left: 4px solid #0070C5; padding: 15px 20px; font-style: italic; margin-bottom: 30px; color: #ffffff;">
             <strong>Name:</strong> ${name} <br>
             <strong>Email:</strong> ${email} <br>
             <strong>Message:</strong> ${message}
           </div>
         </div>
+
+        <!-- Footer Section -->
+        <div class="email-footer" style="background-color: #0070C5; padding: 20px; border-radius: 0 0 10px 10px; color: white; text-align: center;">
+          <img src="https://www.vertexglobalsourcing.com/assets/logo.png" alt="Vertex Global Sourcing Logo" style="height: 50px; margin-bottom: 10px;">
+          <p style="margin: 5px 0; font-size: 14px;">
+            Vertex Global Sourcing<br>
+            Email: <a href="mailto:info@vertexglobalsourcing.com" style="color: #ffffff; text-decoration: underline;">info@vertexglobalsourcing.com</a><br>
+            Phone: <a href="tel:+1234567890" style="color: #ffffff; text-decoration: underline;">+1 (234) 567-890</a><br>
+            Website: <a href="https://www.vertexglobalsourcing.com" style="color: #ffffff; text-decoration: underline;">www.vertexglobalsourcing.com</a>
+          </p>
+        </div>
+
       </div>
     </body>
     </html>
   `;
 }
 
-// Handle preflight requests (if needed)
-app.options("/send-email", cors(corsOptions)); // Handle preflight request for the /send-email route
+
+// Handle preflight requests
+app.options("/send-email", cors(corsOptions));
 
 // Start server
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

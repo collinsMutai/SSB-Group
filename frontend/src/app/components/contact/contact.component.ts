@@ -30,12 +30,12 @@ declare const bootstrap: any;
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RecaptchaModule,  // <-- v2 recaptcha
+    RecaptchaModule, // <-- v2 recaptcha
   ],
 })
 export class ContactComponent implements OnInit, AfterViewInit {
   contactForm: FormGroup;
-  siteKey: string = environment.recaptchaSiteKey;  // Your v2 site key here
+  siteKey: string = environment.recaptchaSiteKey; // Your v2 site key here
   recaptchaToken: string | null = null;
   isLoading: boolean = false;
 
@@ -48,10 +48,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
 
   @ViewChild('toastEl', { static: false }) toastEl!: ElementRef;
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient
-  ) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -66,7 +63,10 @@ export class ContactComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
     if (this.contactForm.invalid || !this.recaptchaToken) {
-      this.showToast('Please fill all required fields and complete reCAPTCHA.', false);
+      this.showToast(
+        'Please fill all required fields and complete reCAPTCHA.',
+        false
+      );
       return;
     }
     this.isLoading = true;
@@ -75,54 +75,38 @@ export class ContactComponent implements OnInit, AfterViewInit {
   }
 
   // When reCAPTCHA is resolved, this event triggers with the token
- onCaptchaResolved(captchaResponse: string | null): void {
-  if (captchaResponse) {
-    this.recaptchaToken = captchaResponse;
-    this.contactForm.patchValue({ recaptcha: captchaResponse });
-  } else {
-    // Captcha was reset or invalidated, clear token and form control
-    this.recaptchaToken = null;
-    this.contactForm.patchValue({ recaptcha: '' });
+  onCaptchaResolved(captchaResponse: string | null): void {
+    if (captchaResponse) {
+      this.recaptchaToken = captchaResponse;
+      this.contactForm.patchValue({ recaptcha: captchaResponse });
+    } else {
+      // Captcha was reset or invalidated, clear token and form control
+      this.recaptchaToken = null;
+      this.contactForm.patchValue({ recaptcha: '' });
+    }
   }
-}
-
 
   sendEmail(formData: any): void {
-    const emailData = {
-      service_id: this.serviceID,
-      template_id: this.templateID,
-      user_id: this.userID,
-      template_params: {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        'g-recaptcha-response': this.recaptchaToken,
-      },
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+      recaptchaToken: this.recaptchaToken,
     };
 
     this.http
-      .post('https://api.emailjs.com/api/v1.0/email/send', emailData, {
-        responseType: 'text',
-      })
+      .post(`${environment.backendUrl}/send-email`, payload)
       .subscribe(
-        (response) => {
+        () => {
           this.isLoading = false;
-
-          if (response.includes('OK')) {
-            this.showToast('Thank you! Your message has been sent.', true);
-            this.contactForm.reset();
-            this.recaptchaToken = null;
-          } else {
-            this.showToast(
-              'Failed to send message. Please try again later.',
-              false
-            );
-          }
+          this.showToast('Thank you! Your message has been sent.', true);
+          this.contactForm.reset();
+          this.recaptchaToken = null;
         },
         (error) => {
-          console.error('Error sending email:', error);
-          this.showToast('Something went wrong. Please try again.', false);
+          console.error(error);
           this.isLoading = false;
+          this.showToast('Failed to send message. Please try again.', false);
         }
       );
   }

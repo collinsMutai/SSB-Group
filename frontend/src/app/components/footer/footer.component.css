@@ -11,7 +11,7 @@
   margin-bottom: 20px;
   font-weight: 800;
   letter-spacing: -1px;
-  color: #4682B4 ;
+  color: #0070C5 ;
   text-align: left;
   opacity: 0;
   animation: fadeInUp 1s ease-out forwards; /* Animation */
@@ -55,11 +55,11 @@
 
 .footer .col-md-4 a:hover {
   text-decoration: underline;
-  color: #4682B4;
+  color: #0070C5;
 }
 
 .footer .social-icons a {
-  color: #D2691E;
+  color: #2F9A5D;
   margin-right: 15px;
   margin-top: 10px;
   font-size: 1.5rem; /* Adjust icon size */
@@ -67,7 +67,7 @@
 }
 
 .footer .social-icons a:hover {
-  color: #4682B4;
+  color: #0070C5;
   text-decoration: underline;
 }
 
@@ -77,7 +77,7 @@
 }
 
 .footer .social-icons a:hover i {
-  color: #4682B4; /* Change icon color on hover */
+  color: #0070C5; /* Change icon color on hover */
 }
 
 /* Second Row for Dynamic Copyright */

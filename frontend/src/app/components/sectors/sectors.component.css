@@ -31,7 +31,7 @@
 .sector-subheading {
   /* font-size: 1.3rem;
   margin-bottom: 10px; */
-  color: #D2691E !important;
+  color: #2F9A5D !important;
   opacity: 0;
   animation: fadeInUp 1.2s ease-out forwards;
   animation-delay: 0.2s;
@@ -57,7 +57,7 @@
 
 .check {
   display: inline-block;
-  color: #D2691E;
+  color: #2F9A5D;
   font-weight: bold;
   margin-right: 6px;
 }
@@ -80,7 +80,7 @@
 
 .sector-container .sector .icon {
   font-size: 40px;
-  color: #D2691E;
+  color: #2F9A5D;
   margin-bottom: 15px;
 }
 
