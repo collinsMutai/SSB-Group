@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
-const fetch = require("node-fetch"); // for verifying reCAPTCHA
+const fetch = require("node-fetch");
 require("dotenv").config();
 
 const app = express();
